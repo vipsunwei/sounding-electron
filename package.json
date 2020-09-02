@@ -41,7 +41,7 @@
       "icon": "build/icons"
     }
   },
-  "repository": "https://github.com/electron/electron-quick-start",
+  "repository": "",
   "keywords": [
     "Electron",
     "quick",
