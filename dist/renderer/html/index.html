@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+    <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'"> -->
+    <!-- <meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self'"> -->
+		<title>放球作业</title>
+	</head>
+	<link rel="stylesheet" type="text/css" href="../css/reset.css" />
+	<link rel="stylesheet" type="text/css" href="../css/process.css" />
+	<script src="../js/sockjs.min.js"></script>
+	<script src="../js/vertx-eventbus.js"></script>
+	<link rel="stylesheet" type="text/css" href="../Build/Cesium/Widgets/widgets.css" />
+	<script src="../Build/Cesium/Cesium.js" type="text/javascript" charset="utf-8"></script>
+	<script src="http://api.tianditu.gov.cn/cdn/plugins/cesium/cesiumTdt.js"></script>
+	<body>
+		<div id="cesiumContainer"></div>
+    <div class="getData">正在获取数据中...</div>
+		<!-- 侧边栏-进度显示 -->
+		<div class="m-aside">
+			<div class="title">探测流程</div>
+			<div class="step"></div>
+		</div>
+		<div class="m-navice">
+			<img src="../img/inputbg.png">
+			<!-- 分步展示 -->
+			<div class="transBox">
+				<div class="trans">
+					<!-- 地面接收机 -->
+					<div class="groundReceiver">
+						<div class="title">地面接收机数值检查</div>
+						<div class="table-box">
+							<div>
+								<div class="table-li">
+									<div>站点编号：</div>
+									<div>
+										<input class="input seltBall science seltInput is-disabled" readonly="readonly" type="text"/>
+									</div>
+								</div>
+								<div class="table-li">
+									<div>设备序列号：</div>
+									<div><input class="input science is-disabled" readonly="readonly" type="text"/></div>
+								</div>
+								<div class="table-li">
+									<div>定长数据类型：</div>
+									<div><input class="input science" type="text"/></div>
+								</div>
+                <div class="table-li">
+                	<div>定长数据长度：</div>
+                	<div><input class="input science" type="text"/></div>
+                </div>
+								<div class="table-li">
+									<div>AFC控制：</div>
+									<div>
+										<label for="openAFC" class="radio-input">
+											<input type="radio" name="AFC" id="openAFC" checked="checked" />
+											开
+										</label>
+										<label for="closeAFC" class="radio-input">
+											<input type="radio" name="AFC" id="closeAFC" />
+											关
+										</label>
+									</div>
+								</div>
+							</div>
+
+							<!--  -->
+							<div>
+								<div class="table-li">
+									<div>工作频点1：</div>
+									<div><input class="input science" type="text"/></div>
+								</div>
+								<div class="table-li">
+									<div>工作频点2：</div>
+									<div><input class="input science" type="text"/></div>
+								</div>
+								<div class="table-li">
+									<div>工作频点3：</div>
+									<div><input class="input science" type="text"/></div>
+								</div>
+								<div class="table-li">
+									<div>工作频点4：</div>
+									<div><input class="input science" type="text"/></div>
+								</div>
+								<div class="table-li">
+									<div>工作频点5：</div>
+									<div><input class="input science" type="text"/></div>
+								</div>
+								<div class="table-li">
+									<div>工作频点6：</div>
+									<div><input class="input science" type="text"/></div>
+								</div>
+								<div class="table-li">
+									<div>工作频点7：</div>
+									<div><input class="input science" type="text"/></div>
+								</div>
+								<div class="table-li">
+									<div>工作频点8：</div>
+									<div><input class="input science" type="text"/></div>
+								</div>
+							</div>
+						</div>
+
+					</div>
+
+					<div class="spectrometer">
+						<div class="title">频谱仪数值检查</div>
+
+						<div class="table-li">
+							<div>设备序列号：</div>
+							<div><input class="input science is-disabled" readonly="readonly" type="text"/></div>
+						</div>
+						<div class="openSpec button science">开电</div>
+						<div class="closeSpec button science">闭电</div>
+						<!-- <div class="table-li">
+							<div>扫频开 / 关：</div>
+							<div>
+								<label for="openRate" class="radio-input">
+									<input type="radio" name="Rate" id="openRate" checked="checked" />
+									开
+								</label>
+								<label for="closeRate" class="radio-input">
+									<input type="radio" name="Rate" id="closeRate" />
+									关
+								</label>
+							</div>
+						</div>
+						<div class="table-li">
+							<div>扫频参数：</div>
+							<div class="BANDWIDTH">
+								<label for="BANDWIDTH1" class="radio-input">
+									<input type="radio" name="BANDWIDTH" id="BANDWIDTH1" checked="checked" />
+									1
+								</label>
+								<label for="BANDWIDTH3" class="radio-input">
+									<input type="radio" name="BANDWIDTH" id="BANDWIDTH3" />
+									3
+								</label>
+								<label for="BANDWIDTH6" class="radio-input">
+									<input type="radio" name="BANDWIDTH" id="BANDWIDTH6" checked="checked" />
+									6
+								</label>
+							</div>
+						</div>
+						<div class="table-li">
+							<div>中心频点：</div>
+							<div><input class="input science bwFreqInt" type="text"/></div>
+						</div> -->
+					</div>
+
+					<div class="baseTestCases">
+						<div class="title">基测箱数值检查</div>
+
+						<!-- <div class="table-li">
+							<div>探空仪编号：</div>
+							<div><input class="input ballNums science" type="text"/></div>
+						</div> -->
+						<div class="table-li">
+							<div>设备序列号：</div>
+							<div><input class="input science is-disabled" readonly="readonly" type="text"/></div>
+						</div>
+
+            <!-- 检测熔断器是否连线 -->
+            <div class="checkFusing">
+              <div class="fusingBtn button science">检测熔断器是否连接</div>
+              <div class="txt" style="display: none;">熔断器检测中...</div>
+            </div>
+
+            <!-- 选择熔断器频点 -->
+            <div class="chooseFusingPoint choosePoint" style="display: none;">
+              选择熔断器频点（建议选择偶数工作频点）：
+              <ul class="tableFusingPoint tablePoint">
+                <li data-index = "1">工作频点1:40000000</li>
+                <li data-index = "2">工作频点2:40000000</li>
+                <li data-index = "3">工作频点3:40000000</li>
+                <li data-index = "4">工作频点4:40000000</li>
+                <li data-index = "5">工作频点5:40000000</li>
+                <li data-index = "6">工作频点6:40000000</li>
+                <li data-index = "7">工作频点7:40000000</li>
+                <li data-index = "8">工作频点8:40000000</li>
+              </ul>
+              <div class="fusingPoint point"><input class="input science" type="text"/></div>
+            </div>
+					</div>
+
+					<div class="sonde">
+						<div class="title">探空仪数值检查</div>
+
+						<div class="table-li">
+							<div>探空仪编号：</div>
+							<div><input class="input science readBallNum is-disabled" readonly="readonly" type="text"/></div>
+						</div>
+						<!-- <div class="table-li">
+							<div>工作频点：</div>
+							<div><input class="input science" type="text"/></div>
+						</div> -->
+            <div class="hint">请拔出熔断器后接入探空仪</div>
+            <!-- 检测探空仪是否连线 -->
+            <div class="checkSonde">
+              <div class="sondeBtn button science">检测探空仪是否连接</div>
+              <div class="txt" style="display: none;">探空仪检测中...</div>
+            </div>
+            <!-- 选择探空仪频点 -->
+            <div class="chooseSondePoint choosePoint" style="display: none;">
+              选择探空仪频点（建议选择奇数工作频点）：
+              <ul class="tableSondePoint tablePoint">
+                <li data-index = "1">工作频点1:40000000</li>
+                <li data-index = "2">工作频点2:40000000</li>
+                <li data-index = "3">工作频点3:40000000</li>
+                <li data-index = "4">工作频点4:40000000</li>
+                <li data-index = "5">工作频点5:40000000</li>
+                <li data-index = "6">工作频点6:40000000</li>
+                <li data-index = "7">工作频点7:40000000</li>
+                <li data-index = "8">工作频点8:40000000</li>
+              </ul>
+              <div class="sondePoint point"><input class="input science" type="text"/></div>
+            </div>
+					</div>
+					<div>
+						<!-- 基测读条 -->
+						<div class="baseLineChart">
+							<!-- 基测读条 -->
+							<div class="baseBox">
+								<div>当前基测进度：</div>
+								<div class="baseLine"><div></div></div>
+                <div class="openBase button science">开电</div>
+                <div class="closeBase button science">闭电</div>
+                <div class="startBase button science">开始基测</div>
+                <div class="baseTxt">当前基测状态：基测未开始，请开始基测</div>
+							</div>
+
+							<!-- 基测数据对比 -->
+							<div id="baseChart"></div>
+						</div>
+
+					</div>
+					<div></div>
+					<div class="record">
+						<div class="table-box">
+							<div>
+								<div class="table-li">
+									<div>日期：</div>
+									<div><input class="input science is-disabled" type="text" readonly value="2020 年 01 月 01 日 00 时 00 分"/></div>
+								</div>
+								<div class="table-li">
+									<div>内球重量：</div>
+									<div><input class="input science" type="text" placeholder="请设置内球重量"/></div>
+								</div>
+								<div class="table-li">
+									<div>充气嘴重量：</div>
+									<div><input class="input science" type="text" placeholder="请设置充气嘴重量"/></div>
+								</div>
+								<div class="table-li">
+									<div>仪器和绳子以及伞重量：</div>
+									<div><input class="input science" type="text" placeholder="请设置仪器和绳子以及伞重量"/></div>
+								</div>
+								<div class="table-li">
+									<div>外球残余重量：</div>
+									<div><input class="input science" type="text" placeholder="请设置外球残余重量"/></div>
+								</div>
+								<div class="table-li">
+									<div>晚上白天施放模式经验值：</div>
+									<div><input class="input science" type="text" placeholder="请设置晚上白天施放模式经验值"/></div>
+								</div>
+								<div class="table-li">
+									<div>内球拉力：</div>
+									<div><input class="input science" type="text" placeholder="内球拉力 = 内球重量 + 充气嘴重量(100g) + 仪器绳子伞重量 + 外球残余量 + (晚上/白天)释放模式经验值"/></div>
+								</div>
+								<div class="table-li">
+									<div>内球拉力仪器显示：</div>
+									<div><input class="input science" type="text" placeholder="内球拉力仪器显示(克)"/></div>
+								</div>
+							</div>
+							<div>
+									<div class="table-li">
+										<div>探空仪编号：</div>
+										<div><input class="input science is-disabled" readonly type="text" placeholder="探空仪编号"/></div>
+									</div>
+									<div class="table-li">
+										<div>外球重量：</div>
+										<div><input class="input science" type="text" value="" placeholder="外球重量(克)"/></div>
+									</div>
+									<div class="table-li">
+										<div>外球拉力：</div>
+										<div><input class="input science" type="text" value="" placeholder="外球拉力(克)"/></div>
+									</div>
+									<div class="table-li">
+										<div>配重：</div>
+										<div><input class="input science" type="text" value="" placeholder="配重(克)"/></div>
+									</div>
+									<div class="table-li">
+										<div>静举力：</div>
+										<div><input class="input science" type="text" value="" placeholder="外球重量 + 内球拉力 - 仪器绳子伞重量 - 外球残余重量 - 配重"/></div>
+									</div>
+									<div class="table-li">
+										<div>外球拉力仪器显示：</div>
+										<div><input class="input science" type="text" value="" placeholder="外球拉力仪器显示(克)"/></div>
+									</div>
+									<div class="table-li">
+										<div>天气信息：</div>
+										<div><input class="input science" type="text" value="" placeholder='天气信息.天气包括:"晴"'/></div>
+									</div>
+									<div class="table-li">
+										<div>备注：</div>
+										<div><input class="input science" type="text" value="" placeholder="备注"/></div>
+									</div>
+								</div>
+						</div>
+						<div class="table-box">
+							<div>
+								<div class="table-li">
+									<div>云量：</div>
+									<div><input class="input science" type="text" value="" placeholder="云量(总云量/低云量)"/></div>
+								</div>
+								<div class="table-li">
+									<div>云状：</div>
+									<div><input class="input science" type="text" value="" placeholder="云状"/></div>
+								</div>
+								<div class="table-li">
+									<div>风向：</div>
+									<div><input class="input science" type="text" value="" placeholder="风向"/></div>
+								</div>
+								<div class="table-li">
+									<div>风速(米/秒)：</div>
+									<div><input class="input science" type="text" value="" placeholder="风速(米/秒)"/></div>
+								</div>
+								<div class="table-li">
+									<div>天气现象：</div>
+									<div><input class="input science" type="text" value="" placeholder="天气现象"/></div>
+								</div>
+								<div class="table-li">
+									<div>能见度：</div>
+									<div><input class="input science" type="text" value="" placeholder="能见度"/></div>
+								</div>
+							</div>
+							<!--  -->
+							<div>
+								<div class="table-li">
+									<div>温度(℃)：</div>
+									<div><input class="input science" type="text" value="" placeholder="温度(℃)"/></div>
+								</div>
+								<div class="table-li">
+									<div>外球拉力：</div>
+									<div><input class="input science" type="text" value="" placeholder="外球拉力(克)"/></div>
+								</div>
+								<div class="table-li">
+									<div>湿度(%RH)：</div>
+									<div><input class="input science" type="text" value="" placeholder="湿度(%RH)"/></div>
+								</div>
+								<div class="table-li">
+									<div>压力(hPa)：</div>
+									<div><input class="input science" type="text" value="" placeholder="压力(hPa)"/></div>
+								</div>
+								<div class="table-li">
+									<div>值班记事：</div>
+									<div>
+										<textarea class="input science textarea" value=""></textarea>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+        <!-- 频谱图 -->
+        <div id="freqCharts" style="display: none;"></div>
+			</div>
+
+			<!-- 上一步 -->
+			<div class="backBtn button science">上一步</div>
+			<!-- 下一步 -->
+			<div class="nextBtn button science">下一步</div>
+			<!-- 开始放球 -->
+			<div class="startBtn button science">开始放球</div>
+			<!-- 提交表单 -->
+			<div class="submitBtn button science">提交</div>
+		</div>
+
+		<!-- 探空数据状态显示栏 -->
+		<div class="infoState">
+			<div class="title">
+				<span>智能北斗探空系统</span>
+				<img src="../img/title.png" alt="智能北斗探空系统">
+			</div>
+			<div class="chartBox">
+				<div class="charts charts1">
+					<i class="lt"></i>
+					<i class="rt"></i>
+					<i class="lb"></i>
+					<i class="rb"></i>
+					<div class="tit">作业信息</div>
+					<div>
+						<div class="info">
+							<div>站号：--</div>
+							<div>探空仪号：--</div>
+						</div>
+						<!-- <div class="infoState">当前状态：--</div> -->
+					</div>
+				</div>
+				<div class="charts charts2">
+					<i class="lt"></i>
+					<i class="rt"></i>
+					<i class="lb"></i>
+					<i class="rb"></i>
+					<div class="tit">设备状态</div>
+					<div class="equipment">
+						<div>智能基测箱<span></span></div>
+						<div>远程控制器<span></span></div>
+						<div>多通道智能接收机<span></span></div>
+						<div>智能集成控制器<span></span></div>
+					</div>
+				</div>
+				<div class="charts charts3">
+					<i class="lt"></i>
+					<i class="rt"></i>
+					<i class="lb"></i>
+					<i class="rb"></i>
+					<div class="tit">探空仪信息</div>
+					<ul class="stateInfo">
+						<li>经度：--</li>
+						<li>纬度：--</li>
+						<li>海拔：--</li>
+						<li>温度：--</li>
+						<li>湿度：--</li>
+						<li>气压：--</li>
+						<li>频率值：--</li>
+						<li>卫星数：--</li>
+						<li>信号强度：--</li>
+						<li>北向速度：--</li>
+						<li>东向速度：--</li>
+						<li>垂直速度：--</li>
+						<li>电池电压：--</li>
+						<li>盒内温度：--</li>
+					</ul>
+				</div>
+				<div class="charts charts4">
+					<i class="lt"></i>
+					<i class="rt"></i>
+					<i class="lb"></i>
+					<i class="rb"></i>
+					<div class="tit">探空曲线</div>
+					<div id="stateLine" class="chart_line"></div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
+<script src="../js/step.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/echarts.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/equipment.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/baseMap.js" type="text/javascript" charset="utf-8"></script>
+<!-- <script src="../js/process.js" type="text/javascript" charset="utf-8"></script> -->
